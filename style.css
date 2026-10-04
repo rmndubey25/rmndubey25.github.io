@@ -1,0 +1,53 @@
+:root{
+  --bg:#000;
+  --red:#e8120c;
+  --dim:#8a1410;
+  --ink:#f2d9d6;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --pixel:"Pixelify Sans","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{
+  color:var(--ink);font-family:var(--mono);font-size:clamp(14px,1.1vw + 8px,17px);
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* video: black in the clip merges with the page, edges fade out */
+.loop{
+  grid-column:2;grid-row:1;justify-self:end;
+  height:min(100dvh,50vw);aspect-ratio:1;object-fit:cover;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 22%);
+          mask-image:linear-gradient(to right,transparent 0,#000 22%);
+  pointer-events:none;
+}
+
+main{grid-column:1;grid-row:1;padding:0 clamp(24px,6vw,96px);z-index:1}
+
+h1{
+  font-family:var(--pixel);font-weight:700;color:var(--red);
+  font-size:clamp(40px,6.5vw,104px);line-height:.95;letter-spacing:-.01em;
+}
+.role{margin-top:1.1em;min-height:3.2em;max-width:30ch;line-height:1.6}
+.cur{display:inline-block;width:.55em;height:1.05em;margin-left:2px;background:var(--red);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.ranks{margin-top:2em;display:flex;gap:2.2em}
+.ranks dt{color:var(--dim)}
+.ranks dd{font-family:var(--pixel);font-weight:700;color:var(--red);font-size:2.2em;line-height:1.1}
+
+nav{margin-top:2.4em;display:flex;flex-wrap:wrap;gap:.5em 1.6em}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--dim);padding-bottom:2px;transition:color .15s,border-color .15s}
+a:hover,a:focus-visible{color:var(--red);border-color:var(--red);outline:none}
+a:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+
+/* narrow screens: video sits behind the text */
+@media (max-width:760px){
+  body{grid-template-columns:1fr}
+  .loop{grid-column:1;grid-row:1;justify-self:center;height:min(100dvh,100vw);opacity:.38;-webkit-mask-image:none;mask-image:none}
+  main{grid-column:1;grid-row:1;padding:0 24px}
+  .role{max-width:none}
+}
+@media (max-height:480px){.role{min-height:0}.ranks{margin-top:1em}nav{margin-top:1.2em}}
+@media (prefers-reduced-motion:reduce){.cur{animation:none}}
